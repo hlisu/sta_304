@@ -15,7 +15,7 @@ library(opendatatoronto)
 library(gridExtra)
 ```
 
-The R Markdown file for this post, including all the codes can be found [here](https://github.com/hlisu/sta_304/blob/master/content/post/blog_post_ps1.Rmd) on my [GitHub](https://github.com/hlisu/).
+The R Markdown file for this post, including all the codes can be found in the repo [here](https://github.com/hlisu/sta_304/) on my [GitHub](https://github.com/hlisu/).
 
 # Abstract
 
