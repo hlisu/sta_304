@@ -11,10 +11,6 @@ tags: ["R Markdown", "plot", "regression"]
 ```{r setup, include=FALSE, echo=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
-library(dplyr)
-library(visdat)
-library(skimr)
-library(devtools)
 library(opendatatoronto)
 library(gridExtra)
 ```
@@ -39,7 +35,7 @@ lang_survey_resources <- list_package_resources("https://open.toronto.ca/dataset
 lang_stats <- lang_survey_resources %>% filter(name == "multilingual-policy-language-survey") %>% get_resource()
 ```
 
-Here we access the dataset on the City of Toronto's open data patrol through opendatatoronto package (@copento).
+Here we access the dataset on the City of Toronto's open data patrol through opendatatoronto package (@copento). Other R packages used include: @cite_tidyverse and @cgridex.
 The data I analyzed include the responses to 
 
 1) Question 2: "If you were accessing translated City Information" and follow-ups; 
