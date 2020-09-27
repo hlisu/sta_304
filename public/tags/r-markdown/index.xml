@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>R Markdown on Haili&#39;s Blog</title>
+    <link>/tags/r-markdown/</link>
+    <description>Recent content in R Markdown on Haili&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 27 Sep 2020 00:00:00 +0000</lastBuildDate><atom:link href="/tags/r-markdown/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Who are overlooked: the problem of under- and overrepresentation in Toronto&#39;s 2017 multilingual policy survey</title>
+      <link>/2020/09/27/who-are-overlooked-the-problem-of-under-and-overrepresentation-in-torontos-2017-multilingual-policy-survey/</link>
+      <pubDate>Sun, 27 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/09/27/who-are-overlooked-the-problem-of-under-and-overrepresentation-in-torontos-2017-multilingual-policy-survey/</guid>
+      <description>Abstract  Introduction The multilcultural nature of Toronto’s demographics determines that the city government needs to provide information and services in different languages to serve its multilingual constituents. In 2017 the City of Toronto conducted an online survey to solicit feedbacks and suggestions from the public on its policy of providing information in languages other than English. The survey was offered in 14 languages that, according to the City, was the 14 most spoken at home by Torontonians, per 2011 census data.</description>
+    </item>
+    
+  </channel>
+</rss>

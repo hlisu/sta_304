@@ -1,0 +1,109 @@
+---
+title: "Who are overlooked: the problem of under- and overrepresentation in Toronto's 2017 multilingual policy survey"
+author: "Haili Su"
+date: "2020-09-27"
+categories: ["R"]
+tags: ["R Markdown", "plot", "regression"]
+---
+
+
+
+<div id="abstract" class="section level1">
+<h1>Abstract</h1>
+</div>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>The multilcultural nature of Toronto’s demographics determines that the city government needs to provide information and services in different languages to serve its multilingual constituents. In 2017 the City of Toronto conducted an online survey to solicit feedbacks and suggestions from the public on its policy of providing information in languages other than English.
+The survey was offered in 14 languages that, according to the City, was the 14 most spoken at home by Torontonians, per 2011 census data. However does the results of the survey really reflect the multilingual communities in the city? In this analysis I will look at two groups in the population: the non-English speaking seniors, who are underrepresented in this survey, and the Bengali speakers who are overrepresented. I will focus on the ways that they found out about the survey as they reported. I will also examine if there are differences in terms of satisfication with the City’s multilingual service between the respondents answered in Bengali and other respondents.</p>
+<p>The data I analyzed include the responses to
+1) Question 2: “If you were accessing translated City Information” and follow-ups;
+2) Question 3: ’Have you ever asked the City to translate information for you?&quot; and follow-ups;
+3) Question 8: What language(s) do you know enough to use confortably at home or work?
+4) Question 11: How did you find out about this survey?
+along with the language respondants chose for the survey, their ages and postal codes. Here is a quick look of the dataset after cleansing and reorganization:</p>
+<pre><code>## Observations: 1,228
+## Variables: 14
+## $ survey_language    &lt;chr&gt; &quot;Spanish&quot;, &quot;Urdu&quot;, &quot;English&quot;, &quot;English&quot;, &quot;English&quot;…
+## $ Q2                 &lt;chr&gt; &quot;No&quot;, &quot;Yes&quot;, &quot;No&quot;, &quot;Yes&quot;, &quot;No&quot;, &quot;No&quot;, &quot;No&quot;, &quot;No&quot;, …
+## $ Q2_Y_Success       &lt;chr&gt; NA, NA, NA, &quot;Yes&quot;, NA, NA, NA, NA, NA, NA, NA, &quot;No…
+## $ Q2_Y_Satisfication &lt;chr&gt; NA, NA, NA, &quot;Very Satisfied&quot;, NA, NA, NA, NA, NA, …
+## $ Q2_N_Why           &lt;chr&gt; NA, NA, &quot;Didn&#39;t require it&quot;, NA, &quot;Didn&#39;t require i…
+## $ Q3                 &lt;chr&gt; &quot;No&quot;, NA, &quot;No&quot;, &quot;No&quot;, &quot;No&quot;, &quot;No&quot;, &quot;No&quot;, &quot;Yes&quot;, &quot;No…
+## $ Q3_Y               &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, &quot;Yes to my satisfactio…
+## $ Q6                 &lt;chr&gt; &quot;Yes&quot;, &quot;Yes&quot;, &quot;No&quot;, &quot;No&quot;, &quot;No&quot;, &quot;Yes&quot;, &quot;No&quot;, &quot;No&quot;,…
+## $ Q6_Y_Satisfication &lt;chr&gt; NA, NA, NA, NA, NA, &quot;Very satisfied&quot;, NA, NA, NA, …
+## $ Q6_N_Why           &lt;chr&gt; NA, NA, &quot;Didn&#39;t need translation&quot;, &quot;Wasn&#39;t aware G…
+## $ age                &lt;chr&gt; NA, NA, &quot;35 - 44&quot;, &quot;15 - 24&quot;, &quot;15 - 24&quot;, &quot;15 - 24&quot;…
+## $ postal             &lt;chr&gt; NA, NA, &quot;M4C&quot;, &quot;M5H&quot;, &quot;M1M&quot;, &quot;m4c&quot;, &quot;M5H&quot;, NA, &quot;M1…
+## $ Q8                 &lt;chr&gt; NA, NA, &quot;English only&quot;, &quot;English and another langu…
+## $ Q11                &lt;chr&gt; NA, NA, &quot;City staff&quot;, &quot;From a friend, family membe…</code></pre>
+</div>
+<div id="part-i-non-english-speaking-seniors" class="section level1">
+<h1>Part I: Non-English Speaking Seniors</h1>
+<div id="data-discussion" class="section level2">
+<h2>Data Discussion</h2>
+<p>The age make-up of our 1228 respondents is as shown below:</p>
+<pre><code>## # A tibble: 9 x 3
+##   age         n    prop
+##   &lt;chr&gt;   &lt;int&gt;   &lt;dbl&gt;
+## 1 15 - 24   117 0.0953 
+## 2 25 - 34   222 0.181  
+## 3 35 - 44   327 0.266  
+## 4 45 - 54   286 0.233  
+## 5 55 - 64   148 0.121  
+## 6 65 - 74    43 0.0350 
+## 7 75 - 84     8 0.00651
+## 8 85+        56 0.0456 
+## 9 &lt;NA&gt;       21 0.0171</code></pre>
+<p>While the 65+ population is underrepresented in the survey results (8.7% of the respondents, while 15.6% of Torontonians are over 65 according to 2016 census), 85+ (2.4% of the population) is actually overrepresented. How about their language use habit at home? Let’s look at how each age group responded to question 8: What language(s) do you know enough to use confortably at home or work?</p>
+<p><img src="/post/2015-07-23-r-rmarkdown_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>As the graph shows, most of the respondents are comfortable with speaking English and another language at home. However, among the group of 85+, the pattern is different: more respondents can only speak English and no one can only speak a non-English language. This demographic make-up differs from other age group, especially the closest age group with comparable sample size, the 65-74 years old.</p>
+<p>And how did the elderly (65+) respondents learn about this survey? Here is a bar chart showing how the three senior age groups in the survey answered question 11: ow did you find out about this survey?
+<img src="/post/2015-07-23-r-rmarkdown_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>The data here show a peculiar pattern.While most of respondent who report their age group as 65-74 know about the survey from Mayor’s or City Councillor’s official communication means, most of the 85+ respondents find out about the survey from online website. Due to the small sample size of 75-84 age group, there isn’t a communicating method that’s outstanding.</p>
+</div>
+<div id="discussion" class="section level2">
+<h2>Discussion</h2>
+<p>Toronto has a long history of immigration from non-English speaking countries. The long histories of Chinatown, Little Italy, Greektown and many other neighbourhoods are the proofs. While it is imaginable that most of senior immigrants have acquired English through living here for a long period of time, the majority of the 85+ respondents here are only comfortable with speaking English at home or at work. While, in fact, the City’s so-called “Seniors Strategy 2.0” report from 2019 highlighted that about 15% of Toronto’s over 65 population have no knowledge of English. There is a real concern that Toronto’s multilingual and non-English speaking seniors, who are more likely to rely on translated information from the City, are overlooked by the survey.</p>
+<p>Why didn’t this survey reach enough multilingual and non-English speaking seniors? The ways that the senior respondents in this survey found out about it, shown in fig 2, may offer a clue. Based on these data the elder respondents are more likely people who have access to internet and are less likely to have been discouraged from local governance due to language barrier. Immigrants, who are usually not native speakers of English, have more disadventage comparing to their Canadian-born peers. Immigrant seniors may be in a less economically advantageous position thus they have less means to find out and participate in a survey like this. The City should probably look into developing better outreach approach with multilingual and non-English speaking seniors in Toronto, especially when they’re consulting the public on multilingual policy.</p>
+</div>
+</div>
+<div id="part-ii-bengali-speakers" class="section level1">
+<h1>Part II Bengali Speakers</h1>
+<div id="data" class="section level2">
+<h2>Data</h2>
+<p>The survey was offered in 14 languages that, according to the 2011 census, are most spoken at home in Toronto. Here is how many people chose to answer in each of these languages:</p>
+<pre><code>## # A tibble: 10 x 3
+##    survey_language          n     prop
+##    &lt;chr&gt;                &lt;int&gt;    &lt;dbl&gt;
+##  1 Bengali                198 0.161   
+##  2 Chinese (Simplified)     4 0.00326 
+##  3 English               1002 0.816   
+##  4 French                   6 0.00489 
+##  5 Italian                  1 0.000814
+##  6 Korean                   1 0.000814
+##  7 Portuguese               4 0.00326 
+##  8 Russian                  1 0.000814
+##  9 Spanish                  9 0.00733 
+## 10 Urdu                     2 0.00163</code></pre>
+<p>As we can see most of the respondents chose to answer the questions in English, while no one completed the survey in Tagalog, Tamil, Farsi and Somali. However the number of people who chose to answer in Bengali (n = 198) seems siginificantly higher than all other non-English language responses adding up (n = 28).</p>
+</div>
+<div id="discussion-1" class="section level2">
+<h2>Discussion</h2>
+<p>The respondents who almost certainly know Bengali (since they answered the Bengali version) are 16.1% of all the respondents. Considering 0.7% of Torontonians speak Bengali most often at home in 2016 census (comparing to 3.3% for Mandarin and 0.7% for French), and the fact that some Bengali speakers may chose to answer in English, Bengali speakers are apparently overrepresented in this survey. So how did this happen?</p>
+<p>First, I should acknowldge that most of the people who chose to answer in English can speak at least one non-English language at home or at work. As this graph demostrates:
+<img src="/post/2015-07-23-r-rmarkdown_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>So this survey definitely reached many members of Toronto’s multilingual communities, and most of them chose to take the English version. However, Bengali speakers seems much more willing to take the Bengali version survey comparing to other non-English languages. Does this mean Bengali speakers generally have more satisfactory experiences with the City’s translation service and probably use it more (thus more Bengali speakers knew and responded to the survey?)? I selected two questions to examine this possibility. First is a secondary follow up for Q2: How satisfied were you with your experience in getting information in another language?
+<img src="/post/2015-07-23-r-rmarkdown_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>From this graph it seems there is no difference in the pattern of responses to this question between Bengali speakers and other respondents. How about the follow-up to Q3: If you answered “Yes” (that you have requested city to translate information for you), did the City translate the information?
+<img src="/post/2015-07-23-r-rmarkdown_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>Again, there’s virtually no distinction between the response patterns. Bengali respondents’ experiences with the City’s translation service is so consistent with the rest of the respondents that I checked my codes multiple times to make sure I didn’t mess up and end up showing the same graph twice.</p>
+<p>While the City of Toronto may have to review why they didn’t translate most of the information people requested them to, they should also look into how respondents are recruited. Did more Bengali speakers answer the survey because Bengali-speaking community organizations advertised the survey more than other communities or is it due to some other reasons? Here is Bengali speaker’s answers to Question 11, How did you find out about this survey, comparing to other respondents:
+<img src="/post/2015-07-23-r-rmarkdown_files/figure-html/unnamed-chunk-10-1.png" width="672" /><img src="/post/2015-07-23-r-rmarkdown_files/figure-html/unnamed-chunk-10-2.png" width="672" /></p>
+<p>Apparently, a significantly larger portion of the respondents who answered in Bengali learnt about the survey from social media, while other respondents show a more discrete pattern. Could this be the effort of a Facebook post from a community organization, or did the city buy more Facebook ads for this survey in Bengali than in other non-English language?</p>
+<p>Bengali-speaking community’s engagement in the City’s multilingual policy development process is, undoubtfully, much needed and highly appreciable. However, if the City would like this or similar future surveys to better reflect the overall population, they should probably look into it, and think about how to encourage more members from other minority language communities to engage in the process. Especially when no one took the survey in Tagalog (spoken most often at home by 1.6% of the population, per 2016 census), Tamil (1.5%), Farsi (1.3%) and Somali (0.2%), though it shouldn’t be interpreted as that people who speak these languages didn’t take the survey.</p>
+</div>
+</div>
+<div id="section" class="section level1">
+<h1></h1>
+</div>
