@@ -39,7 +39,7 @@ lang_survey_resources <- list_package_resources("https://open.toronto.ca/dataset
 lang_stats <- lang_survey_resources %>% filter(name == "multilingual-policy-language-survey") %>% get_resource()
 ```
 
-Here we access the dataset on the City of Toronto's open data patrol through @copento.
+Here we access the dataset on the City of Toronto's open data patrol through opendatatoronto package (@copento).
 The data I analyzed include the responses to 
 
 1) Question 2: "If you were accessing translated City Information" and follow-ups; 
@@ -163,14 +163,14 @@ As we can see most of the respondents chose to answer the questions in English, 
 
 ## Discussion
 
-The respondents who almost certainly know Bengali (since they answered the Bengali version) are 16.1% of all the respondents. Considering in 2016 census 0.7% of Torontonians speak Bengali most often at home in 2016 census (comparing to 3.3% for Mandarin and 0.7% for French) (Statistics Canada, 2017), and the fact that some Bengali speakers may choose to answer in English, Bengali speakers are apparently overrepresented in this survey. So how did this happen?
+The respondents who almost certainly know Bengali (since they answered the Bengali version) are 16.1% of all the respondents. Considering in 2016 census 0.7% of Torontonians speak Bengali most often at home (comparing to 3.3% for Mandarin and 0.7% for French) (Statistics Canada, 2017), and the fact that some Bengali speakers may choose to answer in English, Bengali speakers are apparently overrepresented in this survey. So how did this happen?
 
 First, I should acknowledge that most of the people who chose to answer in English can speak at least one non-English language at home or at work. As this graph demonstrates:
 ```{r, echo = FALSE}
 #Creating a pie chart to show the composition of the answers:
 plot_eng_q8 <- lang_stats_2 %>% filter(survey_language == "English") %>% ggplot(aes(x = survey_language, fill = Q8))+
   geom_bar()+
-  labs(x = "Survey language", y = "Number of responses", title = "At home/work language use (Q8) distribution of people who answered in English", subtitle = "n = 1002", fill = "At home/work language use")+ coord_polar("y", start=0)
+  labs(x = "Survey language", y = "Number of responses", title = "Fig. 3 At home/work language use (Q8) distribution of people who answered in English", subtitle = "n = 1002", fill = "At home/work language use")+ coord_polar("y", start=0)
 plot_eng_q8
 ```
 
@@ -179,12 +179,12 @@ So, this survey definitely reached many members of Toronto's multilingual commun
 #creating a graph showing the responses distribution for respondent who didn't choose Bengali
 plot_q2_sat_ol <- lang_stats_2 %>% filter(survey_language != "Bengali" & Q2 == "Yes" & Q2_Y_Success == "Yes") %>% ggplot(aes(x = Q2_Y_Satisfication, fill = Q8))+
   geom_bar()+
-  labs(x = "Answers", y = "Number of responses", title = "Satisfication with getting info in another language: other languages", fill = "At home/work language use")
+  labs(x = "Answers", y = "Number of responses", title = "Fig. 5 Satisfication with getting info in another language: other languages", fill = "At home/work language use")
 
 #creating a graph showing the responses distribution for respondent who chose Bengali
 plot_q2_sat_be <- lang_stats_2 %>% filter(survey_language == "Bengali" & Q2 == "Yes" & Q2_Y_Success == "Yes") %>% ggplot(aes(x = Q2_Y_Satisfication, fill = Q8))+
   geom_bar()+
-  labs(x = "Answers", y = "Number of responses", title = "Satisfication with getting info in another language: Bengali", fill = "At home/work language use")
+  labs(x = "Answers", y = "Number of responses", title = "Fig. 4 Satisfication with getting info in another language: Bengali", fill = "At home/work language use")
 
 #displaying the graphs
 grid.arrange(plot_q2_sat_be, plot_q2_sat_ol)
@@ -194,10 +194,10 @@ From this graph it seems there is no difference in the pattern of responses to t
 ```{r, echo=FALSE}
 plot_q3_sat_ol <- lang_stats_2 %>% filter(survey_language != "Bengali" & Q3 == "Yes") %>% ggplot(aes(x = Q3_Y, fill = Q8))+
   geom_bar()+
-  labs(x = "Answers", y = "Number of responses", title = "Did the City translate the information? : other languages", fill = "At home/work language use")
+  labs(x = "Answers", y = "Number of responses", title = "Fig. 7 Did the City translate the information? : other languages", fill = "At home/work language use")
 plot_q3_sat_be <- lang_stats_2 %>% filter(survey_language == "Bengali" & Q3 == "Yes") %>% ggplot(aes(x = Q3_Y, fill = Q8))+
   geom_bar()+
-  labs(x = "Answers", y = "Number of responses", title = "Did the City translate the information? : Bengali", fill = "At home/work language use")
+  labs(x = "Answers", y = "Number of responses", title = "Fig. 6 Did the City translate the information? : Bengali", fill = "At home/work language use")
 grid.arrange(plot_q3_sat_be, plot_q3_sat_ol)
 ```
 
@@ -208,10 +208,10 @@ While the City of Toronto may have to review why they didn't translate most of t
 #Ploting two pie charts to show the compositions of the answers:
 plot_q11_ol <- lang_stats_2 %>% filter(survey_language != "Bengali") %>% ggplot(aes(x = "", fill = Q11))+
   geom_bar()+
-  labs(x = "Other languages", y = "Number of responses", title = "How did you find out about this survey? : other languages", fill = "Answers") + coord_polar("y", start=0)
+  labs(x = "Other languages", y = "Number of responses", title = "Fig. 9 How did you find out about this survey? : other languages", fill = "Answers") + coord_polar("y", start=0)
 plot_q11_be <- lang_stats_2 %>% filter(survey_language == "Bengali") %>% ggplot(aes(x = "", fill = Q11))+
   geom_bar()+
-  labs(x = "Bengali", y = "Number of responses", title = "How did you find out about this survey? : Bengali", fill = "Answers") + coord_polar("y", start=0)
+  labs(x = "Bengali", y = "Number of responses", title = "Fig. 8 How did you find out about this survey? : Bengali", fill = "Answers") + coord_polar("y", start=0)
 plot_q11_be
 plot_q11_ol
 ```
@@ -226,7 +226,7 @@ Given the survey use the sample of volunteers method, and the fact that the surv
 
 Also, a flaw in my analysis on the senior population is that, I don't have more concrete, data-based evidence to support the reasoning that the seniors who took the survey are better off than average. One possible way to further analyze it is to examine the geographical distribution of the respondents based on the postal codes they provided and compare the average incomes in those areas. However, despite the survey only asked for the first three digits, many people answered their full postal codes (and one person even filled in "New Zealand"). Therefore, though it is not impossible, it requires a lot of data cleansing and recategorization.
 
-Lastly, although people who can comfortably use language(s) other than English had been asked to fill in the other language(s) they can speak, I didn't analyze those data. This is because many people filled in more than one language(s) while the questions only asked for one -- they seem to misinterpret it as asking all the languages they can speak. Also some people provided joke answers ("British"), or answered in another language (since they took the survey in that language). Therefore even though utilize can give a much better picture of the composition of the sample population, it would also require a lot of data cleansing. If I have more time these will be where I want to conduct further analysis on.  
+Lastly, although people who can comfortably use language(s) other than English had been asked to fill in the other language(s) they can speak, I didn't analyze those data. This is because many people filled in more than one language(s) while the questions only asked for one -- they seem to misinterpret it as asking all the languages they can speak. Also some people provided joke answers ("British"), or answered in another language (since they took the survey in that language). Therefore even though utilizing these data can give us a much better picture of the composition of the sample population, it would also require a lot of data cleansing. If I have more time these will be where I want to conduct further analysis on.  
 
 # Reference
 
